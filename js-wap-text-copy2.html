@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="browsermode" content="application">
+    <meta name="x5-page-mode" content="app">
+    <title>手机端文案复制</title>
+    <style>
+        body{ max-width: 640px; margin: 0 auto;}
+        ul,li{ list-style: none; padding: 0; margin: 0;}
+        .copy-demo{ width: 100%; height: auto; overflow: hidden;}
+        .li{ padding: 20px; border-bottom: 1px solid #f0f0f0; overflow: hidden;}
+        .copy-pp{ color: #666; line-height: 1.2;}
+        .copy-btn{ background-color: cornflowerblue; color: #fff;}
+        .copy-text{ opacity: 0;}
+    </style>
+</head>
+<body>
+
+<!--使用时：请调试到手机模式：-->
+
+<!--copy-demo-->
+<section class="copy-demo">
+    <ul class="ul">
+        <li class="li">
+            <div class="copy-pp" >
+                1.上得了厅堂，下得了厨房，杀得了木马，翻得了围墙，开得了汽车，买得起洋房，斗得了小三，打得赢流氓。
+            </div>
+            <button type="button" class="copy-btn js-copy-btn">点击复制文字</button>
+            <textarea class="copy-text" value="" readonly="readonly"></textarea>
+        </li>
+        <li class="li">
+            <div class="copy-pp" >
+                2.人的一生都会扮演很多角色，如果你不高兴，你可以把剧本扔了。不过记住，有一份剧本是真真属于你的，千万别丢错了。
+            </div>
+            <button type="button" class="copy-btn js-copy-btn">点击复制文字</button>
+            <textarea class="copy-text" value="" readonly="readonly"></textarea>
+        </li>
+        <li class="li">
+            <div class="copy-pp" >
+                3.现在演戏的都去唱歌了，唱不了歌的都去写书了，写不了书的都去演戏了，演不了戏的就又去唱歌了。演艺圈是个圈嘛。
+            </div>
+            <button type="button" class="copy-btn js-copy-btn">点击复制文字</button>
+            <textarea class="copy-text" value="" readonly="readonly"></textarea>
+        </li>
+
+    </ul>
+</section>
+
+<script type="text/javascript">
+    // 复制文案功能:
+    const jsCopy = function(obj) {
+
+        function fn() {
+            var u = navigator.userAgent;
+            //苹果
+            if (u.match(/(iPhone|iPod|iPad);?/i)) { //ios
+                //   alert('苹果啊');
+                //要复制文字的节点
+                var copyDOM = obj.parentNode.firstChild.nextElementSibling;
+
+                var range = document.createRange();
+                // 选中需要复制的节点
+                range.selectNode(copyDOM);
+                // 执行选中元素
+                window.getSelection().addRange(range);
+                // 执行 copy 操作
+                var successful = document.execCommand('copy');
+                try {
+                    var msg = successful ? 'successful' : 'unsuccessful';
+                    console.log('copy is' + msg);
+                } catch(err) {
+                    console.log('Oops, unable to copy');
+                }
+                // 移除选中的元素
+                window.getSelection().removeAllRanges();
+                obj.innerHTML = '已复制'
+
+
+                //obj.setAttribute('data-state','yes');
+
+            }
+            // 安卓
+            if(u.indexOf('Android') > -1 ){
+                // alert('安卓啊');
+                var $copyPP = obj.parentNode.firstChild.nextElementSibling,
+                $copyText = obj.parentNode.lastChild.nextElementSibling;
+                $copyText.innerHTML = $copyPP.innerHTML.replace(/<[^>]+>/g,"");
+
+                $copyText.select(); // 选择对象
+
+                document.execCommand("Copy"); // 执行浏览器复制命令
+
+                obj.innerHTML = '已复制';
+            }
+            // 安卓系统的UC浏览器
+            if(u.indexOf('Android') > -1 && u.indexOf('UCBrowser') > -1){
+                obj.innerHTML = '点击复制文案';
+                alert('若点击复制文案无效，请长按内容手动复制！');
+            }
+        }
+
+        obj.addEventListener('click', fn, false);
+    };
+
+    //
+    let copyBtns = document.querySelectorAll('.js-copy-btn');
+    copyBtns.forEach((obj) => {
+        jsCopy(obj);
+
+    });
+</script>
+
+</body>
+</html>
