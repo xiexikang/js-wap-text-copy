@@ -51,6 +51,7 @@
     </ul>
 </section>
 
+
 <script type="text/javascript">
     // 复制文案功能:
     const jsCopy = function(obj) {
@@ -61,7 +62,7 @@
             if (u.match(/(iPhone|iPod|iPad);?/i)) { //ios
                 //   alert('苹果啊');
                 //要复制文字的节点
-                var copyDOM = obj.parentNode.firstChild.nextElementSibling;
+                var copyDOM = obj.parentNode.children[0];
 
                 var range = document.createRange();
                 // 选中需要复制的节点
@@ -80,21 +81,16 @@
                 window.getSelection().removeAllRanges();
                 obj.innerHTML = '已复制'
 
-
-                //obj.setAttribute('data-state','yes');
-
             }
             // 安卓
             if(u.indexOf('Android') > -1 ){
-                // alert('安卓啊');
-                var $copyPP = obj.parentNode.firstChild.nextElementSibling,
-                $copyText = obj.parentNode.lastChild.nextElementSibling;
+                //alert('安卓啊');
+                var $copyPP = obj.parentNode.children[0],
+                    $copyText = obj.parentNode.children[2];
                 $copyText.innerHTML = $copyPP.innerHTML.replace(/<[^>]+>/g,"");
 
                 $copyText.select(); // 选择对象
-
                 document.execCommand("Copy"); // 执行浏览器复制命令
-
                 obj.innerHTML = '已复制';
             }
             // 安卓系统的UC浏览器
